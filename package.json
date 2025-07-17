@@ -33,7 +33,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "concurrently": "^8.2.2",
+    "concurrently": "^9.2.0",
     "typescript": "^5.8.3"
   },
   "engines": {
