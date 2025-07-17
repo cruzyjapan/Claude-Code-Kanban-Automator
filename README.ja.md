@@ -22,13 +22,13 @@ Claude Codeを使用してタスクを自動実行するカンバンスタイル
 <tr>
 <td align="center">
 <h3>新規タスク作成</h3>
-<img src="public/screenshots/create-new-task.png" alt="タスク作成モーダル" width="400">
+<img src="public/screenshots/CreateTask.png" alt="タスク作成モーダル" width="400">
 <br>
 <em>タイトル、説明、優先度、添付ファイルを含む新規タスク作成画面</em>
 </td>
 <td align="center">
 <h3>カンバンボード</h3>
-<img src="public/screenshots/kanban-board.png" alt="カンバンボード" width="400">
+<img src="public/screenshots/Dashboard.png" alt="カンバンボード" width="400">
 <br>
 <em>タスク実行通知を表示するカンバンボードビュー</em>
 </td>
@@ -36,13 +36,13 @@ Claude Codeを使用してタスクを自動実行するカンバンスタイル
 <tr>
 <td align="center">
 <h3>言語設定</h3>
-<img src="public/screenshots/language-settings.png" alt="言語設定" width="400">
+<img src="public/screenshots/Language.png" alt="言語設定" width="400">
 <br>
 <em>言語選択 - 日本語/英語サポート</em>
 </td>
 <td align="center">
 <h3>テーマ設定</h3>
-<img src="public/screenshots/theme-settings.png" alt="テーマ設定" width="400">
+<img src="public/screenshots/Appearance.png" alt="テーマ設定" width="400">
 <br>
 <em>外観設定 - ライト/ダーク/システムテーマオプション</em>
 </td>
@@ -52,13 +52,13 @@ Claude Codeを使用してタスクを自動実行するカンバンスタイル
 <tr>
 <td align="center">
 <h3>通知設定</h3>
-<img src="public/screenshots/notification-settings.png" alt="通知設定" width="400">
+<img src="public/screenshots/Notifications.png" alt="通知設定" width="400">
 <br>
 <em>デスクトップ通知、音声アラート、通知項目の設定</em>
 </td>
 <td align="center">
 <h3>アーカイブ</h3>
-<img src="public/screenshots/archive.png" alt="アーカイブビュー" width="400">
+<img src="public/screenshots/Archive.png" alt="アーカイブビュー" width="400">
 <br>
 <em>完了タスクを管理するアーカイブビュー</em>
 </td>
@@ -66,13 +66,13 @@ Claude Codeを使用してタスクを自動実行するカンバンスタイル
 <tr>
 <td align="center">
 <h3>タスクフィードバック</h3>
-<img src="public/screenshots/task-feedback.png" alt="タスクフィードバック" width="400">
+<img src="public/screenshots/Feedback History.png" alt="タスクフィードバック" width="400">
 <br>
 <em>タスクレビューと修正依頼のためのフィードバックインターフェース</em>
 </td>
 <td align="center">
 <h3>タスク情報</h3>
-<img src="public/screenshots/task-information.png" alt="タスク情報" width="400">
+<img src="public/screenshots/Task.png" alt="タスク情報" width="400">
 <br>
 <em>ステータス、優先度、バージョン管理を表示するタスク詳細</em>
 </td>
