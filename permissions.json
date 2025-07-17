@@ -1,0 +1,68 @@
+{
+  "description": "Claude Code permission configuration - controls which operations are allowed when --dangerously-skip-permissions is enabled",
+  "allowed_operations": {
+    "file_operations": {
+      "read": true,
+      "create": true,
+      "edit": true,
+      "delete": false,
+      "description": "File system operations"
+    },
+    "directory_operations": {
+      "create": true,
+      "delete": false,
+      "description": "Directory/folder operations"
+    },
+    "system_operations": {
+      "install_packages": false,
+      "modify_system_config": false,
+      "run_as_sudo": false,
+      "modify_permissions": false,
+      "description": "System-level operations"
+    },
+    "network_operations": {
+      "fetch_web_content": true,
+      "download_files": false,
+      "description": "Network-related operations"
+    },
+    "git_operations": {
+      "clone": true,
+      "commit": true,
+      "push": false,
+      "force_push": false,
+      "description": "Git version control operations"
+    },
+    "code_execution": {
+      "run_scripts": true,
+      "run_tests": true,
+      "start_servers": false,
+      "description": "Code execution operations"
+    }
+  },
+  "custom_rules": [
+    {
+      "pattern": "rm -rf",
+      "allowed": false,
+      "description": "Prevent recursive force deletion"
+    },
+    {
+      "pattern": "chmod 777",
+      "allowed": false,
+      "description": "Prevent setting overly permissive file permissions"
+    },
+    {
+      "pattern": "npm install -g",
+      "allowed": false,
+      "description": "Prevent global package installations"
+    },
+    {
+      "pattern": "> /dev/null",
+      "allowed": true,
+      "description": "Allow output redirection to null device"
+    }
+  ],
+  "warning_message": {
+    "ja": "⚠️ 危険な権限が有効です。ファイルの作成・編集は可能ですが、削除・システム変更・パッケージインストールは制限されています。",
+    "en": "⚠️ Dangerous permissions enabled. File creation/editing allowed, but deletion, system changes, and package installation are restricted."
+  }
+}

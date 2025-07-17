@@ -1,0 +1,137 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 217.2 91.2% 59.8%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  
+  body {
+    @apply bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* Fix datetime-local input colors */
+  input[type="datetime-local"] {
+    color-scheme: light;
+  }
+  
+  .dark input[type="datetime-local"] {
+    color-scheme: dark;
+  }
+  
+  /* Ensure calendar popup is visible */
+  input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    @apply cursor-pointer opacity-70 hover:opacity-100;
+  }
+  
+  .dark input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    @apply invert;
+  }
+}
+
+@layer components {
+  .kanban-column {
+    @apply bg-gray-50 dark:bg-gray-800 rounded-lg p-4 min-h-[500px];
+  }
+
+  .task-card {
+    @apply bg-white dark:bg-gray-700 rounded-lg p-4 mb-3 shadow-sm hover:shadow-md transition-all;
+  }
+
+  .task-card.dragging {
+    @apply opacity-50 rotate-3 scale-105;
+  }
+  
+  .task-card:active {
+    @apply cursor-grabbing;
+  }
+
+  .priority-high {
+    @apply border-l-4 border-red-500;
+  }
+
+  .priority-medium {
+    @apply border-l-4 border-yellow-500;
+  }
+
+  .priority-low {
+    @apply border-l-4 border-green-500;
+  }
+
+  /* Custom scrollbar styles */
+  .kanban-scrollable {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+  }
+
+  .kanban-scrollable::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .kanban-scrollable::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .kanban-scrollable::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0.5);
+    border-radius: 3px;
+    transition: background-color 0.2s;
+  }
+
+  .kanban-scrollable::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(156, 163, 175, 0.8);
+  }
+
+  .dark .kanban-scrollable {
+    scrollbar-color: rgba(75, 85, 99, 0.5) transparent;
+  }
+
+  .dark .kanban-scrollable::-webkit-scrollbar-thumb {
+    background-color: rgba(75, 85, 99, 0.5);
+  }
+
+  .dark .kanban-scrollable::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(75, 85, 99, 0.8);
+  }
+}

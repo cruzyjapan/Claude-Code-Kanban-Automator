@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: claude-code-kanban
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - HOST=0.0.0.0
+      - DATABASE_PATH=./database/tasks.db
+      - OUTPUT_DIR=./outputs
+      - CLAUDE_CODE_COMMAND=claude-code
+      - CLAUDE_CODE_WORK_DIR=./claude-code-workspace
+      - MAX_CONCURRENT_TASKS=3
+      - TASK_CHECK_INTERVAL=60000
+      - JWT_SECRET=${JWT_SECRET:-your-secret-key-here}
+    volumes:
+      # Persistent data
+      - ./database:/app/database
+      - ./outputs:/app/outputs
+      - ./claude-code-workspace:/app/claude-code-workspace
+      - ./logs:/app/logs
+      # Claude Code binary (mount from host if needed)
+      # - /usr/local/bin/claude-code:/usr/local/bin/claude-code:ro
+    networks:
+      - claude-network
+    restart: unless-stopped
+    depends_on:
+      - db-init
+
+  db-init:
+    build: .
+    container_name: claude-code-db-init
+    command: ["node", "scripts/init-db.js"]
+    environment:
+      - DATABASE_PATH=./database/tasks.db
+    volumes:
+      - ./database:/app/database
+    networks:
+      - claude-network
+    restart: "no"
+
+  # Nginx reverse proxy (optional, for production)
+  nginx:
+    image: nginx:alpine
+    container_name: claude-code-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - app
+    networks:
+      - claude-network
+    restart: unless-stopped
+    profiles:
+      - production
+
+networks:
+  claude-network:
+    driver: bridge
+
+volumes:
+  database:
+  outputs:
+  claude-code-workspace:
+  logs:

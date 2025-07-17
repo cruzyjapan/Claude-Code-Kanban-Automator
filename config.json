@@ -1,0 +1,22 @@
+{
+  "app": {
+    "name": "Claude Code Task Manager",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "database": "${DATABASE_PATH}",
+    "outputs": "${OUTPUT_DIR}",
+    "logs": "./logs",
+    "claudeCodeWorkspace": "${CLAUDE_CODE_WORK_DIR}"
+  },
+  "execution": {
+    "maxConcurrentTasks": "${MAX_CONCURRENT_TASKS}",
+    "checkInterval": "${TASK_CHECK_INTERVAL}",
+    "retryLimit": 3,
+    "claudeCodeCommand": "${CLAUDE_CODE_COMMAND}"
+  },
+  "ui": {
+    "theme": "auto",
+    "language": "ja"
+  }
+}

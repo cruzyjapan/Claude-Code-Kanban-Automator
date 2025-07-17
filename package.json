@@ -1,0 +1,47 @@
+{
+  "name": "claude-code-kanban-automator",
+  "version": "1.0.0",
+  "description": "A Kanban-style task management system that automatically executes tasks using Claude Code",
+  "main": "backend/dist/index.js",
+  "scripts": {
+    "dev": "node scripts/dev-server.js",
+    "dev:old": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build": "npm run build:backend && npm run build:frontend",
+    "build:backend": "cd backend && npm run build",
+    "build:frontend": "cd frontend && npm run build",
+    "start": "node backend/dist/index.js",
+    "db:init": "node scripts/init-db.js",
+    "db:migrate": "node scripts/migrate-db.js",
+    "test": "npm run test:backend && npm run test:frontend",
+    "test:backend": "cd backend && npm test",
+    "test:frontend": "cd frontend && npm test",
+    "lint": "npm run lint:backend && npm run lint:frontend",
+    "lint:backend": "cd backend && npm run lint",
+    "lint:frontend": "cd frontend && npm run lint",
+    "clean": "pkill -f 'node|ts-node|vite' || true",
+    "restart": "npm run clean && sleep 2 && npm run dev"
+  },
+  "keywords": [
+    "claude-code",
+    "kanban",
+    "task-automation",
+    "ai",
+    "project-management"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@tailwindcss/forms": "^0.5.10",
+    "dotenv": "^17.2.0",
+    "sqlite3": "^5.1.7"
+  }
+}

@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  # Backend development service
+  backend:
+    image: node:18-alpine
+    container_name: claude-code-backend-dev
+    working_dir: /app/backend
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=development
+      - PORT=5000
+      - HOST=0.0.0.0
+      - DATABASE_PATH=../database/tasks.db
+      - OUTPUT_DIR=../outputs
+      - CLAUDE_CODE_COMMAND=claude-code
+      - CLAUDE_CODE_WORK_DIR=../claude-code-workspace
+      - MAX_CONCURRENT_TASKS=3
+      - TASK_CHECK_INTERVAL=60000
+    volumes:
+      - ./backend:/app/backend
+      - ./database:/app/database
+      - ./outputs:/app/outputs
+      - ./claude-code-workspace:/app/claude-code-workspace
+      - ./logs:/app/logs
+      - /app/backend/node_modules
+    command: npm run dev
+    networks:
+      - claude-network-dev
+
+  # Frontend development service
+  frontend:
+    image: node:18-alpine
+    container_name: claude-code-frontend-dev
+    working_dir: /app/frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://localhost:5000/api
+      - VITE_WS_URL=ws://localhost:5000/ws
+    volumes:
+      - ./frontend:/app/frontend
+      - /app/frontend/node_modules
+    command: npm run dev
+    networks:
+      - claude-network-dev
+
+  # Database initialization
+  db-init:
+    image: node:18-alpine
+    container_name: claude-code-db-init-dev
+    working_dir: /app
+    command: ["node", "scripts/init-db.js"]
+    environment:
+      - DATABASE_PATH=./database/tasks.db
+    volumes:
+      - ./:/app
+      - /app/node_modules
+      - /app/backend/node_modules
+      - /app/frontend/node_modules
+    networks:
+      - claude-network-dev
+    profiles:
+      - init
+
+networks:
+  claude-network-dev:
+    driver: bridge

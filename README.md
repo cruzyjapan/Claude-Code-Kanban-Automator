@@ -1,1 +1,545 @@
-# Claude-Kanban-Automator
+# AI Tasks, Done Right - Claude Code Kanban Automator
+
+A powerful Kanban-style task management system that seamlessly integrates with Claude Code to automate task execution. Transform your workflow with AI-powered task automation and visual project management.
+
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-green.svg)
+![TypeScript](https://img.shields.io/badge/typescript-%3E%3D5.0.0-blue.svg)
+![React](https://img.shields.io/badge/react-18.2.0-blue.svg)
+
+## 🎯 Why Claude Code Kanban Automator?
+
+This tool bridges the gap between task management and AI execution, allowing you to:
+- **Queue tasks visually** on a Kanban board
+- **Execute automatically** with Claude Code
+- **Review and iterate** with feedback loops
+- **Track progress** in real-time
+
+## Screenshots
+
+<div align="center">
+<table>
+<tr>
+<td align="center">
+<h3>Create New Task</h3>
+<img src="public/screenshots/create-new-task.png" alt="Create Task Modal" width="400">
+<br>
+<em>Create new task modal with title, description, priority, and attachments</em>
+</td>
+<td align="center">
+<h3>Kanban Board</h3>
+<img src="public/screenshots/kanban-board.png" alt="Kanban Board" width="400">
+<br>
+<em>Kanban board view with task execution notification</em>
+</td>
+</tr>
+<tr>
+<td align="center">
+<h3>Language Settings</h3>
+<img src="public/screenshots/language-settings.png" alt="Language Settings" width="400">
+<br>
+<em>Language selection - Japanese/English support</em>
+</td>
+<td align="center">
+<h3>Theme Settings</h3>
+<img src="public/screenshots/theme-settings.png" alt="Theme Settings" width="400">
+<br>
+<em>Appearance settings - Light/Dark/System theme options</em>
+</td>
+</tr>
+</table>
+<table>
+<tr>
+<td align="center">
+<h3>Notification Settings</h3>
+<img src="public/screenshots/notification-settings.png" alt="Notification Settings" width="400">
+<br>
+<em>Configure desktop notifications, sound alerts, and notification items</em>
+</td>
+<td align="center">
+<h3>Archive</h3>
+<img src="public/screenshots/archive.png" alt="Archive View" width="400">
+<br>
+<em>Archive view for managing completed tasks</em>
+</td>
+</tr>
+<tr>
+<td align="center">
+<h3>Task Feedback</h3>
+<img src="public/screenshots/task-feedback.png" alt="Task Feedback" width="400">
+<br>
+<em>Feedback interface for task review and revision requests</em>
+</td>
+<td align="center">
+<h3>Task Information</h3>
+<img src="public/screenshots/task-information.png" alt="Task Information" width="400">
+<br>
+<em>Task details showing status, priority, and version control</em>
+</td>
+</tr>
+</table>
+</div>
+
+## 🚀 Key Features
+
+### 🎨 Visual Task Management
+- **Drag-and-drop Kanban board** with customizable columns
+- **Priority-based queue system** (High/Medium/Low)
+- **Real-time status updates** via WebSocket
+- **Task versioning** for iterative improvements
+
+### 🤖 AI-Powered Automation
+- **Direct Claude Code integration** - runs in your environment
+- **Concurrent task execution** with configurable limits
+- **Automatic retry logic** with exponential backoff
+- **Custom prompt instructions** per task or globally
+
+### 💬 Collaborative Workflow
+- **Feedback system** - Add comments and Claude Code addresses them
+- **Review workflow** - Human approval before completion
+- **File attachments** - Share context with Claude Code
+- **Output management** - Download generated files
+
+### 🔔 Smart Notifications
+- **Real-time WebSocket updates**
+- **Desktop notifications** with sound alerts
+- **Customizable notification preferences**
+- **Stuck task detection** and alerts
+
+## 🛠️ Complete Installation Guide
+
+### Prerequisites
+
+Before installation, ensure you have:
+
+- **Node.js** (v18.0.0 or higher) - [Download](https://nodejs.org/)
+- **npm** (comes with Node.js) or **yarn**
+- **Git** - [Download](https://git-scm.com/)
+- **Claude Code** (optional for testing) - [Installation Guide](https://docs.anthropic.com/claude-code)
+
+### Step-by-Step Installation
+
+#### 1. Clone the Repository
+
+```bash
+git clone https://github.com/cruzy-japan/claude-code-kanban-automator.git
+cd claude-code-kanban-automator
+```
+
+#### 2. Run the Installation Script
+
+For the quickest setup, use our installation script:
+
+```bash
+chmod +x install.sh
+./install.sh
+```
+
+Or follow the manual steps below:
+
+#### 3. Manual Installation
+
+```bash
+# Install all dependencies
+npm install
+cd backend && npm install && cd ..
+cd frontend && npm install && cd ..
+
+# Create required directories
+mkdir -p database outputs uploads claude-code-workspace logs
+
+# Create environment configuration
+cp .env.example .env
+# Or create manually:
+cat > .env << 'EOF'
+# Database
+DATABASE_PATH=./database/tasks.db
+
+# Output directory  
+OUTPUT_DIR=./outputs
+
+# Claude Code settings
+# Use mock for testing, replace with 'claude' for real integration
+CLAUDE_CODE_COMMAND=./scripts/mock-claude-code.sh
+CLAUDE_CODE_WORK_DIR=./claude-code-workspace
+
+# Server settings
+PORT=5001
+HOST=localhost
+
+# Execution settings
+MAX_CONCURRENT_TASKS=3
+TASK_CHECK_INTERVAL=5000
+RETRY_LIMIT=3
+
+# Security
+JWT_SECRET=your-secret-key-here
+
+# Environment
+NODE_ENV=development
+EOF
+
+# Create frontend environment
+cat > frontend/.env << 'EOF'
+VITE_API_URL=http://localhost:5001/api
+VITE_WS_URL=ws://localhost:5001
+EOF
+
+# Initialize database
+node -e "
+const sqlite3 = require('sqlite3').verbose();
+const fs = require('fs');
+const path = require('path');
+
+const dbPath = './database/tasks.db';
+const schemaPath = './database/schema.sql';
+
+const schema = fs.readFileSync(schemaPath, 'utf8');
+const db = new sqlite3.Database(dbPath);
+
+db.exec(schema, (err) => {
+  if (err) {
+    console.error('Database initialization failed:', err);
+    process.exit(1);
+  }
+  console.log('Database initialized successfully');
+  db.close();
+});
+"
+```
+
+#### 4. Configure Claude Code Integration
+
+If you have Claude Code installed:
+
+```bash
+# Update the .env file to use real Claude Code
+sed -i 's|CLAUDE_CODE_COMMAND=.*|CLAUDE_CODE_COMMAND=claude|' .env
+
+# Or on macOS:
+sed -i '' 's|CLAUDE_CODE_COMMAND=.*|CLAUDE_CODE_COMMAND=claude|' .env
+```
+
+#### 5. Start the Application
+
+```bash
+# Development mode (recommended for first run)
+npm run dev
+
+# Or start services separately:
+# Terminal 1:
+npm run dev:backend
+
+# Terminal 2:  
+npm run dev:frontend
+```
+
+#### 6. Access the Application
+
+- **Frontend**: http://localhost:5173
+- **Backend API**: http://localhost:5001/api
+- **Health Check**: http://localhost:5001/api/health
+
+**Note**: The frontend runs on port 5173 by default (Vite's standard port). If this port is already in use, Vite will automatically use the next available port (5174, 5175, etc.).
+
+## 🔧 Configuration
+
+### Environment Variables
+
+The `.env` file controls key settings:
+
+```env
+# Claude Code Integration
+CLAUDE_CODE_COMMAND=claude              # Command to run Claude Code
+CLAUDE_CODE_WORK_DIR=./workspace        # Working directory for tasks
+
+# Execution Limits
+MAX_CONCURRENT_TASKS=3                  # Max parallel executions
+TASK_CHECK_INTERVAL=5000               # Check interval (ms)
+RETRY_LIMIT=3                          # Max retries on failure
+
+# Server Configuration  
+PORT=5001                              # Backend port
+DATABASE_PATH=./database/tasks.db      # SQLite database location
+```
+
+### Custom Prompt Instructions
+
+Add global instructions for all Claude Code executions:
+
+1. Navigate to Settings → Custom Prompt
+2. Add your instructions (e.g., coding standards, language preferences)
+3. Save - these will be included in all task executions
+
+### Permission Modes
+
+- **Normal Mode** (default): Standard file operation restrictions
+- **Dangerous Permissions**: Enable with `--dangerously-skip-permissions` in settings
+
+## 📋 Usage Guide
+
+### Creating Your First Task
+
+1. Click **"新規タスク"** (New Task) on the dashboard
+2. Enter:
+   - **Title**: Clear, actionable task name
+   - **Description**: Detailed requirements
+   - **Priority**: High/Medium/Low
+   - **Attachments**: Any reference files
+3. Click **"作成"** (Create)
+
+### Task Workflow
+
+```
+Pending → Requested → Working → Review → Completed
+   ↑         ↓           ↓         ↓
+   └─────────┴───────────┴─────────┘ (Feedback loop)
+```
+
+1. **Pending**: New tasks start here
+2. **Requested**: Drag here to queue for execution
+3. **Working**: Claude Code is processing
+4. **Review**: Awaiting human approval
+5. **Completed**: Task finished and approved
+
+### Providing Feedback
+
+1. Click a task in **Review** status
+2. Navigate to **Feedback** tab
+3. Enter specific improvements needed
+4. Click **"差戻して再作業"** (Send back for rework)
+
+## 🏗️ Architecture Overview
+
+```
+claude-code-kanban-automator/
+├── frontend/                 # React + TypeScript + Vite
+│   ├── src/
+│   │   ├── components/      # Reusable UI components
+│   │   ├── pages/          # Route pages
+│   │   ├── contexts/       # React context providers
+│   │   ├── services/       # API communication
+│   │   └── types/          # TypeScript definitions
+│   └── public/             # Static assets
+│
+├── backend/                 # Node.js + Express + TypeScript
+│   └── src/
+│       ├── controllers/    # Route handlers
+│       ├── services/       # Business logic
+│       │   ├── claude-code-executor.service.ts
+│       │   ├── task-execution-monitor.service.ts
+│       │   └── websocket.service.ts
+│       ├── routes/         # API endpoints
+│       └── types/          # Type definitions
+│
+├── database/               # SQLite storage
+│   ├── schema.sql         # Database structure
+│   └── tasks.db           # Main database
+│
+├── claude-code-workspace/  # Isolated execution environments
+└── outputs/               # Generated files from tasks
+```
+
+## 🗑️ Cleaning Up / Resetting the Application
+
+If you need to completely reset the application to its initial state:
+
+### Complete Reset (Nuclear Option)
+
+```bash
+# Stop all running processes
+npm run clean
+
+# Remove all data and generated files
+rm -rf database/tasks.db
+rm -rf outputs/*
+rm -rf uploads/*
+rm -rf claude-code-workspace/*
+rm -rf logs/*
+
+# Keep .gitkeep files
+touch outputs/.gitkeep uploads/.gitkeep claude-code-workspace/.gitkeep logs/.gitkeep
+
+# Reinitialize database
+node -e "
+const sqlite3 = require('sqlite3').verbose();
+const fs = require('fs');
+const schema = fs.readFileSync('./database/schema.sql', 'utf8');
+const db = new sqlite3.Database('./database/tasks.db');
+db.exec(schema, (err) => {
+  if (err) console.error(err);
+  else console.log('Database reset successfully');
+  db.close();
+});"
+
+# Restart application
+npm run dev
+```
+
+### Partial Reset Options
+
+```bash
+# Clear only task data (keep settings)
+rm -rf database/tasks.db outputs/* claude-code-workspace/*
+
+# Clear only outputs and workspace
+rm -rf outputs/* claude-code-workspace/*
+
+# Clear only uploads
+rm -rf uploads/*
+```
+
+### Folders That Cannot Be Deleted
+
+Some folders may be protected or locked by the system:
+
+1. **node_modules/**: May contain files locked by running processes
+   ```bash
+   # Stop all Node processes first
+   npm run clean
+   # Then remove
+   rm -rf node_modules backend/node_modules frontend/node_modules
+   ```
+
+2. **dist/**: May be locked during TypeScript compilation
+   ```bash
+   # Stop build processes and remove
+   rm -rf backend/dist
+   ```
+
+3. **Running workspace directories**: If Claude Code is actively executing
+   ```bash
+   # Check for running processes
+   ps aux | grep claude
+   # Kill if necessary, then remove
+   rm -rf claude-code-workspace/*
+   ```
+
+### Permission Issues
+
+If you encounter permission errors:
+
+```bash
+# Make files writable
+chmod -R 755 outputs/ uploads/ claude-code-workspace/ logs/
+
+# Force remove if needed (use with caution)
+sudo rm -rf outputs/* uploads/* claude-code-workspace/*
+```
+
+## 🐛 Troubleshooting
+
+### Common Issues and Solutions
+
+#### Backend Won't Start
+
+```bash
+# Check if port is in use
+lsof -i :5001
+
+# Kill process if needed
+kill -9 <PID>
+
+# Or use different port
+PORT=5002 npm run dev:backend
+```
+
+#### Database Errors
+
+```bash
+# Recreate database
+rm database/tasks.db
+node init-database.js
+
+# Check permissions
+ls -la database/
+chmod 644 database/tasks.db
+```
+
+#### Frontend Build Errors
+
+```bash
+# Clear cache and reinstall
+cd frontend
+rm -rf node_modules package-lock.json
+npm install
+npm run dev
+```
+
+#### Claude Code Not Found
+
+```bash
+# Verify installation
+which claude
+
+# Add to PATH if needed
+export PATH="$PATH:/path/to/claude"
+
+# Use mock for testing
+# Edit .env: CLAUDE_CODE_COMMAND=./scripts/mock-claude-code.sh
+```
+
+## 🚀 Production Deployment
+
+### Build for Production
+
+```bash
+# Build both frontend and backend
+npm run build
+
+# Start production server
+NODE_ENV=production npm start
+```
+
+### Using PM2
+
+```bash
+# Install PM2 globally
+npm install -g pm2
+
+# Start application
+pm2 start ecosystem.config.js
+
+# Monitor
+pm2 monit
+```
+
+### Docker Deployment
+
+```bash
+# Build and run with Docker Compose
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+```
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Built for seamless integration with [Claude Code](https://claude.ai/code)
+- UI components from [Headless UI](https://headlessui.com/) and [Heroicons](https://heroicons.com/)
+- Styling with [Tailwind CSS](https://tailwindcss.com/)
+
+## 📞 Support
+
+- **Issues**: [GitHub Issues](https://github.com/cruzy-japan/claude-code-kanban-automator/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/cruzy-japan/claude-code-kanban-automator/discussions)
+- **Documentation**: [Wiki](https://github.com/cruzy-japan/claude-code-kanban-automator/wiki)
+
+---
+
+Made with ❤️ by [Cruzy Japan](https://cruzy.jp) | クルージジャパン株式会社

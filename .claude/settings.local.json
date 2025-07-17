@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(chmod:*)",
+      "Bash(ls:*)",
+      "Bash(grep:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npm run:*)",
+      "Bash(curl:*)",
+      "Bash(pkill:*)",
+      "Bash(true)",
+      "Bash(npx ts-node:*)",
+      "Bash(sqlite3:*)",
+      "Bash(node:*)",
+      "Bash(./scripts/mock-claude-code.sh:*)",
+      "Bash(./scripts/cleanup.sh:*)",
+      "Bash(cat:*)",
+      "Bash(command -v:*)",
+      "Bash(kill:*)",
+      "Bash(pm2 stop:*)",
+      "Bash(pm2 start npm:*)",
+      "Bash(find:*)",
+      "Bash(npm start)",
+      "Bash(claude --print \"Hello, test prompt\")",
+      "Bash(claude doctor)",
+      "Bash(claude:*)",
+      "Bash(rm:*)",
+      "Bash(timeout:*)",
+      "Bash(pm2 logs:*)",
+      "Bash(touch:*)"
+    ],
+    "deny": []
+  }
+}
