@@ -7,6 +7,7 @@ import { ExecutionService } from './services/execution.service';
 import { SettingsService } from './services/settings.service';
 import { createStuckTaskDetector } from './services/stuck-task-detector.service';
 import { setStuckTaskDetector } from './routes/stuck-task.routes';
+import { TaskActivityUpdater } from './services/task-activity-updater.service';
 import dotenv from 'dotenv';
 import path from 'path';
 
@@ -63,6 +64,10 @@ const stuckTaskDetector = createStuckTaskDetector(
 stuckTaskDetector.setWebSocketService(wsService);
 setStuckTaskDetector(stuckTaskDetector);
 
+// Initialize task activity updater
+const taskActivityUpdater = new TaskActivityUpdater();
+console.log('✅ Task activity updater initialized');
+
 server.listen(PORT, () => {
   console.log(`🚀 Server is running on http://${HOST}:${PORT}`);
   console.log(`📊 API endpoints available at http://${HOST}:${PORT}/api`);
@@ -76,6 +81,10 @@ server.listen(PORT, () => {
   // Start stuck task detector
   stuckTaskDetector.start();
   console.log(`🔍 Stuck task detector started`);
+  
+  // Start task activity updater
+  taskActivityUpdater.startUpdating();
+  console.log(`🔄 Task activity updater started`);
 });
 
 // Graceful shutdown
@@ -92,6 +101,10 @@ function shutdown() {
   // Stop stuck task detector
   stuckTaskDetector.stop();
   console.log('✅ Stuck task detector stopped');
+  
+  // Stop task activity updater
+  taskActivityUpdater.stopUpdating();
+  console.log('✅ Task activity updater stopped');
   
   server.close(() => {
     console.log('✅ HTTP server closed');

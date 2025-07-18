@@ -36,7 +36,7 @@ export class TaskActivityUpdater {
   private async updateWorkingTasks(): Promise<void> {
     try {
       // Find working tasks with active executions
-      const result = await this.db.run(`
+      await this.db.run(`
         UPDATE tasks
         SET updated_at = CURRENT_TIMESTAMP
         WHERE status = 'working'
@@ -51,8 +51,20 @@ export class TaskActivityUpdater {
           )
       `);
 
-      if (result.changes && result.changes > 0) {
-        console.log(`[TaskActivityUpdater] Updated activity for ${result.changes} working tasks`);
+      // Check how many tasks were updated
+      const updatedTasks = await this.db.get(`
+        SELECT COUNT(*) as count
+        FROM tasks
+        WHERE status = 'working'
+          AND id IN (
+            SELECT DISTINCT task_id 
+            FROM executions 
+            WHERE status = 'running'
+          )
+      `);
+
+      if (updatedTasks && updatedTasks.count > 0) {
+        console.log(`[TaskActivityUpdater] Updated activity for ${updatedTasks.count} working tasks`);
       }
     } catch (error) {
       console.error('[TaskActivityUpdater] Error updating task activity:', error);

@@ -116,7 +116,6 @@ This tool bridges the gap between task management and AI execution, allowing you
 ## 🚀 Key Features
 
 ### 🎨 Visual Task Management
-- **Drag-and-drop Kanban board** with customizable columns
 - **Priority-based queue system** (High/Medium/Low)
 - **Real-time status updates** via WebSocket
 - **Task versioning** for iterative improvements
