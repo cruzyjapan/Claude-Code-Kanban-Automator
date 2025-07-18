@@ -137,7 +137,7 @@ su - ユーザー名
 ### ワンコマンドセットアップ
 
 ```bash
-git clone https://github.com/cruzy-japan/claude-code-kanban-automator.git
+git clone git@github.com:cruzyjapan/Claude-Code-Kanban-Automator.git
 cd claude-code-kanban-automator
 chmod +x install.sh
 ./install.sh
