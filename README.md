@@ -342,13 +342,13 @@ To enable Claude Code to properly generate files and folders, you need to enable
 
 ### Creating Your First Task
 
-1. Click **"新規タスク"** (New Task) on the dashboard
+1. Click **"New Task"** on the dashboard
 2. Enter:
    - **Title**: Clear, actionable task name
    - **Description**: Detailed requirements
    - **Priority**: High/Medium/Low
    - **Attachments**: Any reference files
-3. Click **"作成"** (Create)
+3. Click **"Create"**
 
 ### Task Workflow
 
@@ -369,7 +369,7 @@ Pending → Requested → Working → Review → Completed
 1. Click a task in **Review** status
 2. Navigate to **Feedback** tab
 3. Enter specific improvements needed
-4. Click **"差戻して再作業"** (Send back for rework)
+4. Click **"Send back for rework"**
 
 ## 🏗️ Architecture Overview
 
