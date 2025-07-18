@@ -149,7 +149,7 @@ This tool bridges the gap between task management and AI execution, allowing you
 ### One-Command Setup
 
 ```bash
-git clone https://github.com/cruzyjapan/Claude-Code-Kanban-Automator.git
+git clone https://github.com/cruzyjapan/claude-code-kanban-automator.git
 cd claude-code-kanban-automator
 chmod +x install.sh
 ./install.sh
@@ -182,7 +182,7 @@ npm run dev
 
 ### Manual Setup (Advanced Users)
 
-#### 3. Manual Installation
+#### 1. Manual Installation
 
 ```bash
 # Install all dependencies
@@ -205,7 +205,7 @@ OUTPUT_DIR=./outputs
 
 # Claude Code settings
 # Use mock for testing, replace with 'claude' for real integration
-CLAUDE_CODE_COMMAND=./scripts/mock-claude-code.sh
+CLAUDE_CODE_COMMAND=claude
 CLAUDE_CODE_WORK_DIR=./claude-code-workspace
 
 # Server settings
@@ -214,7 +214,7 @@ HOST=localhost
 
 # Execution settings
 MAX_CONCURRENT_TASKS=3
-TASK_CHECK_INTERVAL=5000
+TASK_CHECK_INTERVAL=5000               # Check interval in milliseconds (5 seconds)
 RETRY_LIMIT=3
 
 # Security
@@ -253,7 +253,7 @@ db.exec(schema, (err) => {
 "
 ```
 
-#### 4. Configure Claude Code Integration
+#### 2. Configure Claude Code Integration
 
 If you have Claude Code installed:
 
@@ -265,7 +265,7 @@ sed -i 's|CLAUDE_CODE_COMMAND=.*|CLAUDE_CODE_COMMAND=claude|' .env
 sed -i '' 's|CLAUDE_CODE_COMMAND=.*|CLAUDE_CODE_COMMAND=claude|' .env
 ```
 
-#### 5. Start the Application
+#### 3. Start the Application
 
 ```bash
 # Development mode (recommended for first run)
@@ -279,7 +279,7 @@ npm run dev:backend
 npm run dev:frontend
 ```
 
-#### 6. Access the Application
+#### 4. Access the Application
 
 - **Frontend**: http://localhost:5173
 - **Backend API**: http://localhost:5001/api
@@ -300,7 +300,7 @@ CLAUDE_CODE_WORK_DIR=./workspace        # Working directory for tasks
 
 # Execution Limits
 MAX_CONCURRENT_TASKS=3                  # Max parallel executions
-TASK_CHECK_INTERVAL=5000               # Check interval (ms)
+TASK_CHECK_INTERVAL=5000               # Check interval in milliseconds (5 seconds)               # Check interval (ms)
 RETRY_LIMIT=3                          # Max retries on failure
 
 # Server Configuration  
@@ -573,7 +573,8 @@ PORT=5002 npm run dev:backend
 ```bash
 # Recreate database
 rm database/tasks.db
-node init-database.js
+npm run db:init
+# Or: node scripts/init-db.js
 
 # Check permissions
 ls -la database/
