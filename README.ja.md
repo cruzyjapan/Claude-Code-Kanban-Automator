@@ -42,6 +42,18 @@ su - ユーザー名
 <table>
 <tr>
 <td align="center">
+<h3>機能一覧</h3>
+<img src="screenshots/claude-code-kanban-diagram.png" alt="機能一覧" width="800">
+<br>
+</td>
+</tr>
+</table>
+</div>
+
+<div align="center">
+<table>
+<tr>
+<td align="center">
 <h3>新規タスク作成</h3>
 <img src="screenshots/CreateTask.png" alt="タスク作成モーダル" width="400">
 <br>

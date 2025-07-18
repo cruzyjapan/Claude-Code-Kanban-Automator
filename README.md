@@ -42,6 +42,18 @@ This tool bridges the gap between task management and AI execution, allowing you
 <table>
 <tr>
 <td align="center">
+<h3>機Diagram</h3>
+<img src="screenshots/claude-code-kanban-diagram-en.png" alt="Diagram" width="800">
+<br>
+</td>
+</tr>
+</table>
+</div>
+
+<div align="center">
+<table>
+<tr>
+<td align="center">
 <h3>Create New Task</h3>
 <img src="screenshots/CreateTask.png" alt="Create Task Modal" width="400">
 <br>
