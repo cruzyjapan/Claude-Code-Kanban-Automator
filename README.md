@@ -149,7 +149,7 @@ This tool bridges the gap between task management and AI execution, allowing you
 ### One-Command Setup
 
 ```bash
-git clone git@github.com:cruzyjapan/Claude-Code-Kanban-Automator.git
+git clone https://github.com/cruzyjapan/Claude-Code-Kanban-Automator.git
 cd claude-code-kanban-automator
 chmod +x install.sh
 ./install.sh
