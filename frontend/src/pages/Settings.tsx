@@ -154,10 +154,10 @@ export default function Settings() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto h-full">
+    <div className="max-w-4xl mx-auto h-full overflow-hidden">
       <h1 className="text-2xl font-bold mb-6">{t('settings.title')}</h1>
 
-      <Tab.Group selectedIndex={activeTab} onChange={setActiveTab} className="flex flex-col h-[calc(100vh-200px)]">
+      <Tab.Group selectedIndex={activeTab} onChange={setActiveTab} className="flex flex-col h-[calc(100vh-180px)]">
         <Tab.List className="flex space-x-1 rounded-xl bg-gray-100 dark:bg-gray-800 p-1">
           <Tab
             className={({ selected }) =>
@@ -243,7 +243,7 @@ export default function Settings() {
 
         <Tab.Panels className="mt-6 flex-1 overflow-hidden">
           {/* Notification Settings */}
-          <Tab.Panel>
+          <Tab.Panel className="h-full overflow-y-auto">
             <div className="bg-white dark:bg-gray-800 rounded-lg p-6 space-y-6">
               <div>
                 <h3 className="text-lg font-semibold mb-4">{t('settings.notifications')}</h3>
@@ -427,7 +427,7 @@ export default function Settings() {
           </Tab.Panel>
 
           {/* Appearance Settings */}
-          <Tab.Panel>
+          <Tab.Panel className="h-full overflow-y-auto">
             <div className="bg-white dark:bg-gray-800 rounded-lg p-6">
               <h3 className="text-lg font-semibold mb-4">{t('settings.appearance')}</h3>
               
@@ -465,7 +465,7 @@ export default function Settings() {
           </Tab.Panel>
 
           {/* Language Settings */}
-          <Tab.Panel>
+          <Tab.Panel className="h-full overflow-y-auto">
             <div className="bg-white dark:bg-gray-800 rounded-lg p-6">
               <h3 className="text-lg font-semibold mb-4">{t('settings.language')}</h3>
               
@@ -505,12 +505,12 @@ export default function Settings() {
           </Tab.Panel>
 
           {/* Permission Settings */}
-          <Tab.Panel>
+          <Tab.Panel className="h-full overflow-y-auto">
             <PermissionSettings />
           </Tab.Panel>
 
           {/* Custom Prompt Settings */}
-          <Tab.Panel className="overflow-y-auto max-h-[calc(100vh-300px)]">
+          <Tab.Panel className="h-full overflow-y-auto">
             <div className="bg-white dark:bg-gray-800 rounded-lg p-6">
               <h3 className="text-lg font-semibold mb-4">
                 {language === 'ja' ? 'カスタムプロンプト設定' : 'Custom Prompt Settings'}
