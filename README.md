@@ -106,36 +106,38 @@ This tool bridges the gap between task management and AI execution, allowing you
 - **Customizable notification preferences**
 - **Stuck task detection** and alerts
 
-## 🛠️ Complete Installation Guide
+## 🛠️ Quick Installation
 
 ### Prerequisites
 
-Before installation, ensure you have:
-
 - **Node.js** (v18.0.0 or higher) - [Download](https://nodejs.org/)
-- **npm** (comes with Node.js) or **yarn**
 - **Git** - [Download](https://git-scm.com/)
-- **Claude Code** (optional for testing) - [Installation Guide](https://docs.anthropic.com/claude-code)
+- **Claude Code** (optional) - [Installation Guide](https://docs.anthropic.com/claude-code)
 
-### Step-by-Step Installation
-
-#### 1. Clone the Repository
+### One-Command Setup
 
 ```bash
 git clone https://github.com/cruzy-japan/claude-code-kanban-automator.git
 cd claude-code-kanban-automator
-```
-
-#### 2. Run the Installation Script
-
-For the quickest setup, use our installation script:
-
-```bash
 chmod +x install.sh
 ./install.sh
 ```
 
-Or follow the manual steps below:
+### Start the Application
+
+```bash
+npm run dev
+```
+
+### Access URLs
+
+- **Frontend**: http://localhost:5173
+- **Backend API**: http://localhost:5001/api
+- **Health Check**: http://localhost:5001/api/health
+
+**Note**: The frontend runs on port 5173 by default (Vite's standard port). If this port is already in use, Vite will automatically use the next available port (5174, 5175, etc.).
+
+### Manual Setup (Advanced Users)
 
 #### 3. Manual Installation
 
@@ -430,6 +432,38 @@ sudo rm -rf outputs/* uploads/* claude-code-workspace/*
 ## 🐛 Troubleshooting
 
 ### Common Issues and Solutions
+
+#### Root/Sudo Permission Error
+
+**Error**: `"cannot be use with root/sudo privileges for security reason"`
+
+**Cause**: Running the application as root user triggers security restrictions in Claude Code.
+
+**Solutions**:
+
+1. **Switch to non-root user** (Recommended):
+   ```bash
+   # Check current user
+   whoami
+   
+   # If you're root, switch to regular user
+   su - your-username
+   ```
+
+2. **Disable dangerous permissions mode**:
+   - Open the application in browser
+   - Go to Settings → Permission Settings
+   - Turn OFF "Dangerous Permissions Mode"
+
+3. **Reset application**:
+   ```bash
+   # Remove database and restart
+   rm -f database/tasks.db
+   npm run db:init
+   npm run dev
+   ```
+
+**Important**: Always run this application as a regular user, not as root or with sudo, for security reasons.
 
 #### Backend Won't Start
 

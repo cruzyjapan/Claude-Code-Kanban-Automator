@@ -107,20 +107,34 @@ Claude Codeを使用してタスクを自動実行するカンバンスタイル
 
 ## 🛠️ インストール
 
-### 完全インストールガイド
+### 必要な環境
 
-このガイドには、一般的なインストール問題を解決するために必要なすべての手順が含まれています。
+- **Node.js** (v18.0.0以上) - [ダウンロード](https://nodejs.org/)
+- **Git** - [ダウンロード](https://git-scm.com/)
+- **Claude Code** (オプション) - [インストールガイド](https://docs.anthropic.com/claude-code)
 
-#### 1. リポジトリをクローン:
+### ワンコマンドセットアップ
+
 ```bash
-git clone https://github.com/your-org/claude-code-kanban-automator.git
+git clone https://github.com/cruzy-japan/claude-code-kanban-automator.git
 cd claude-code-kanban-automator
+chmod +x install.sh
+./install.sh
 ```
 
-#### 2. ルート依存関係をインストール（重要 - sqlite3とdotenvを含む）:
+### アプリケーション起動
+
 ```bash
-npm install
+npm run dev
 ```
+
+### アクセスURL
+
+- **フロントエンド**: http://localhost:5173
+- **バックエンドAPI**: http://localhost:5001/api
+- **ヘルスチェック**: http://localhost:5001/api/health
+
+### 手動セットアップ（上級者向け）
 
 #### 3. バックエンドの依存関係をインストール:
 ```bash
@@ -348,6 +362,38 @@ NODE_ENV=development
 ## 🔧 トラブルシューティング
 
 ### よくある問題
+
+#### Root/Sudo権限エラー
+
+**エラー**: `"cannot be use with root/sudo privileges for security reason"`
+
+**原因**: rootユーザーでアプリケーションを実行すると、Claude Codeのセキュリティ制限が発動します。
+
+**解決方法**:
+
+1. **非rootユーザーに切り替え**（推奨）:
+   ```bash
+   # 現在のユーザー確認
+   whoami
+   
+   # rootの場合は通常ユーザーに切り替え
+   su - ユーザー名
+   ```
+
+2. **危険な権限モードを無効化**:
+   - ブラウザでアプリケーションを開く
+   - 設定 → 権限設定に移動
+   - 「危険な権限モード」を**オフ**にする
+
+3. **アプリケーションをリセット**:
+   ```bash
+   # データベースを削除して再起動
+   rm -f database/tasks.db
+   npm run db:init
+   npm run dev
+   ```
+
+**重要**: セキュリティ上の理由から、このアプリケーションは必ず通常ユーザーで実行してください。rootやsudoは使用しないでください。
 
 **Q: Claude Codeが見つからない**
 A: Claude CodeがPATHに含まれていることを確認してください。`which claude-code`コマンドで確認できます。
