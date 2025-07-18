@@ -64,11 +64,13 @@ export class StuckTaskDetectorService {
       const timeoutMinutes = settings.task_timeout_minutes;
       
       // Find running executions that haven't been updated recently
+      // Only check tasks that are in 'working' status (not 'review' or 'completed')
       const sql = `
-        SELECT e.*, t.title 
+        SELECT e.*, t.title, t.status as task_status
         FROM executions e
         JOIN tasks t ON e.task_id = t.id
         WHERE e.status = 'running' 
+        AND t.status = 'working'
         AND datetime(e.started_at, '+${timeoutMinutes} minutes') < datetime('now')
         AND (
           e.last_activity_at IS NULL 
@@ -195,7 +197,7 @@ export class StuckTaskDetectorService {
     const timeoutMinutes = settings.task_timeout_minutes;
     
     const sql = `
-      SELECT e.*, t.title, t.priority,
+      SELECT e.*, t.title, t.priority, t.status as task_status,
         CASE 
           WHEN e.last_activity_at IS NOT NULL 
           THEN (julianday('now') - julianday(e.last_activity_at)) * 24 * 60
@@ -204,6 +206,7 @@ export class StuckTaskDetectorService {
       FROM executions e
       JOIN tasks t ON e.task_id = t.id
       WHERE e.status = 'running' 
+      AND t.status = 'working'
       AND datetime(e.started_at, '+${timeoutMinutes} minutes') < datetime('now')
       AND (
         e.last_activity_at IS NULL 

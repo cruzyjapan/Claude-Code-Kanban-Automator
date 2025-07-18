@@ -159,6 +159,16 @@ export class TaskService {
     // Update task queue if status changed
     if (data.status !== undefined) {
       await this.updateTaskQueueStatus(id, data.status);
+      
+      // If task is moving to 'review' status, mark any running executions as completed
+      if (data.status === 'review' && currentTask?.status === 'working') {
+        await this.completeRunningExecutions(id);
+      }
+      
+      // If task is moving to 'pending' from 'working', mark any running executions as failed
+      if (data.status === 'pending' && currentTask?.status === 'working') {
+        await this.failRunningExecutions(id, 'Task moved to pending status');
+      }
     }
 
     // Handle tags if provided
@@ -459,6 +469,65 @@ export class TaskService {
     } catch (error) {
       console.error('Error during force cleanup:', error);
       throw new Error('Failed to perform force cleanup');
+    }
+  }
+
+  private async completeRunningExecutions(taskId: string): Promise<void> {
+    try {
+      // Find any running executions for this task
+      const runningExecutions = await this.db.all(
+        'SELECT id FROM executions WHERE task_id = ? AND status = ?',
+        [taskId, 'running']
+      );
+
+      if (runningExecutions.length > 0) {
+        console.log(`Found ${runningExecutions.length} running executions for task ${taskId} that need to be completed`);
+
+        // Mark all running executions as completed
+        for (const execution of runningExecutions) {
+          await this.db.run(
+            `UPDATE executions 
+             SET status = ?, completed_at = datetime('now', 'localtime'), 
+                 execution_logs = COALESCE(execution_logs, '') || '\n\n[System] Execution marked as completed due to task status change to review.'
+             WHERE id = ?`,
+            ['completed', execution.id]
+          );
+          console.log(`Marked execution ${execution.id} as completed`);
+        }
+      }
+    } catch (error) {
+      console.error(`Error completing running executions for task ${taskId}:`, error);
+      // Don't throw - this is a cleanup operation that shouldn't block the main flow
+    }
+  }
+
+  private async failRunningExecutions(taskId: string, reason: string): Promise<void> {
+    try {
+      // Find any running executions for this task
+      const runningExecutions = await this.db.all(
+        'SELECT id FROM executions WHERE task_id = ? AND status = ?',
+        [taskId, 'running']
+      );
+
+      if (runningExecutions.length > 0) {
+        console.log(`Found ${runningExecutions.length} running executions for task ${taskId} that need to be marked as failed`);
+
+        // Mark all running executions as failed
+        for (const execution of runningExecutions) {
+          await this.db.run(
+            `UPDATE executions 
+             SET status = ?, completed_at = datetime('now', 'localtime'), 
+                 error_message = ?,
+                 execution_logs = COALESCE(execution_logs, '') || '\n\n[System] Execution marked as failed: ' || ?
+             WHERE id = ?`,
+            ['failed', reason, reason, execution.id]
+          );
+          console.log(`Marked execution ${execution.id} as failed`);
+        }
+      }
+    } catch (error) {
+      console.error(`Error failing running executions for task ${taskId}:`, error);
+      // Don't throw - this is a cleanup operation that shouldn't block the main flow
     }
   }
 }
