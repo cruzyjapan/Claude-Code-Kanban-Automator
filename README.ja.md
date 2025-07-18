@@ -296,7 +296,7 @@ npm run dev:frontend
 ```env
 # Claude Code統合
 CLAUDE_CODE_COMMAND=claude              # Claude Code実行コマンド
-CLAUDE_CODE_WORK_DIR=./workspace        # タスク用作業ディレクトリ
+CLAUDE_CODE_WORK_DIR=./claude-code-workspace        # タスク用作業ディレクトリ
 
 # 実行制限
 MAX_CONCURRENT_TASKS=3                  # 最大並列実行数

@@ -296,7 +296,7 @@ The `.env` file controls key settings:
 ```env
 # Claude Code Integration
 CLAUDE_CODE_COMMAND=claude              # Command to run Claude Code
-CLAUDE_CODE_WORK_DIR=./workspace        # Working directory for tasks
+CLAUDE_CODE_WORK_DIR=./claude-code-workspace        # Working directory for tasks
 
 # Execution Limits
 MAX_CONCURRENT_TASKS=3                  # Max parallel executions
