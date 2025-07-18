@@ -102,6 +102,7 @@ CREATE TABLE IF NOT EXISTS user_settings (
     enable_task_timeout INTEGER DEFAULT 1,
     enable_dangerous_permissions INTEGER DEFAULT 0,
     permission_config TEXT, -- JSON string for custom permission configuration
+    custom_prompt_instructions TEXT DEFAULT '', -- Custom instructions for all tasks
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );

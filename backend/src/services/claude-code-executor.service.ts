@@ -148,7 +148,7 @@ export class ClaudeCodeExecutor extends EventEmitter {
         ['default']
       );
       
-      if (settings?.custom_prompt_instructions) {
+      if (settings?.custom_prompt_instructions && settings.custom_prompt_instructions.trim() !== '') {
         prompt += `## カスタム指示\n${settings.custom_prompt_instructions}\n\n`;
       }
     } catch (error) {

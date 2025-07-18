@@ -38,6 +38,8 @@ export default function Settings() {
   
   // Custom prompt settings
   const [customPromptInstructions, setCustomPromptInstructions] = useState('')
+  const [savedCustomPromptInstructions, setSavedCustomPromptInstructions] = useState('')
+  const [isSavingCustomPrompt, setIsSavingCustomPrompt] = useState(false)
 
   // Load settings on mount
   useEffect(() => {
@@ -55,6 +57,7 @@ export default function Settings() {
           enable_task_timeout: settings.enable_task_timeout ?? true,
         })
         setCustomPromptInstructions(settings.custom_prompt_instructions || '')
+        setSavedCustomPromptInstructions(settings.custom_prompt_instructions || '')
       } catch (error) {
         console.error('Failed to load settings:', error)
       }
@@ -151,10 +154,10 @@ export default function Settings() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-4xl mx-auto h-full">
       <h1 className="text-2xl font-bold mb-6">{t('settings.title')}</h1>
 
-      <Tab.Group selectedIndex={activeTab} onChange={setActiveTab}>
+      <Tab.Group selectedIndex={activeTab} onChange={setActiveTab} className="flex flex-col h-[calc(100vh-200px)]">
         <Tab.List className="flex space-x-1 rounded-xl bg-gray-100 dark:bg-gray-800 p-1">
           <Tab
             className={({ selected }) =>
@@ -238,7 +241,7 @@ export default function Settings() {
           </Tab>
         </Tab.List>
 
-        <Tab.Panels className="mt-6">
+        <Tab.Panels className="mt-6 flex-1 overflow-hidden">
           {/* Notification Settings */}
           <Tab.Panel>
             <div className="bg-white dark:bg-gray-800 rounded-lg p-6 space-y-6">
@@ -507,7 +510,7 @@ export default function Settings() {
           </Tab.Panel>
 
           {/* Custom Prompt Settings */}
-          <Tab.Panel>
+          <Tab.Panel className="overflow-y-auto max-h-[calc(100vh-300px)]">
             <div className="bg-white dark:bg-gray-800 rounded-lg p-6">
               <h3 className="text-lg font-semibold mb-4">
                 {language === 'ja' ? 'カスタムプロンプト設定' : 'Custom Prompt Settings'}
@@ -531,25 +534,64 @@ export default function Settings() {
                   placeholder={language === 'ja' 
                     ? '例: \n- 日本語でコメントを書いてください\n- TypeScriptを使用してください\n- テストコードも作成してください'
                     : 'Example: \n- Write comments in Japanese\n- Use TypeScript\n- Create test code as well'}
-                  className="w-full h-48 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:border-gray-600"
+                  className="w-full h-32 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:border-gray-600 resize-none"
                 />
               </div>
 
-              <div className="mt-4">
-                <button
-                  onClick={async () => {
-                    try {
-                      await settingsApi.update({ custom_prompt_instructions: customPromptInstructions })
-                      toast.success(language === 'ja' ? '設定を保存しました' : 'Settings saved')
-                    } catch (error) {
-                      toast.error(language === 'ja' ? '設定の保存に失敗しました' : 'Failed to save settings')
-                      console.error('Failed to save custom prompt:', error)
-                    }
-                  }}
-                  className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
-                >
-                  {language === 'ja' ? '保存' : 'Save'}
-                </button>
+              <div className="mt-4 space-y-3">
+                <div className="flex items-center gap-4">
+                  <button
+                    onClick={async () => {
+                      setIsSavingCustomPrompt(true)
+                      try {
+                        await settingsApi.update({ custom_prompt_instructions: customPromptInstructions })
+                        setSavedCustomPromptInstructions(customPromptInstructions)
+                        toast.success(language === 'ja' ? 'カスタムプロンプトを適用しました' : 'Custom prompt applied')
+                      } catch (error) {
+                        toast.error(language === 'ja' ? 'カスタムプロンプトの適用に失敗しました' : 'Failed to apply custom prompt')
+                        console.error('Failed to apply custom prompt:', error)
+                      } finally {
+                        setIsSavingCustomPrompt(false)
+                      }
+                    }}
+                    disabled={isSavingCustomPrompt || customPromptInstructions === savedCustomPromptInstructions}
+                    className={`px-4 py-2 rounded-lg transition-colors ${
+                      isSavingCustomPrompt || customPromptInstructions === savedCustomPromptInstructions
+                        ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                        : 'bg-primary-600 text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500'
+                    }`}
+                  >
+                    {isSavingCustomPrompt 
+                      ? (language === 'ja' ? '保存中...' : 'Saving...') 
+                      : (language === 'ja' ? '適用' : 'Apply')}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setCustomPromptInstructions('')
+                    }}
+                    disabled={isSavingCustomPrompt}
+                    className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors disabled:opacity-50"
+                  >
+                    {language === 'ja' ? 'クリア' : 'Clear'}
+                  </button>
+                  {customPromptInstructions !== savedCustomPromptInstructions && (
+                    <span className="text-sm text-orange-600 dark:text-orange-400 font-medium">
+                      {language === 'ja' ? '※ 未保存の変更があります' : '※ You have unsaved changes'}
+                    </span>
+                  )}
+                </div>
+                {savedCustomPromptInstructions && (
+                  <div className="p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+                    <p className="text-sm text-green-800 dark:text-green-200">
+                      {language === 'ja' ? '✓ 現在適用中のカスタムプロンプト:' : '✓ Currently applied custom prompt:'}
+                    </p>
+                    <pre className="mt-1 text-xs text-green-700 dark:text-green-300 whitespace-pre-wrap">
+                      {savedCustomPromptInstructions.length > 100 
+                        ? savedCustomPromptInstructions.substring(0, 100) + '...' 
+                        : savedCustomPromptInstructions}
+                    </pre>
+                  </div>
+                )}
               </div>
             </div>
           </Tab.Panel>

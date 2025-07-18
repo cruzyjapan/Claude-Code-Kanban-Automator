@@ -28,6 +28,7 @@ export class SettingsService {
         enable_task_timeout: 1,
         enable_dangerous_permissions: 0,
         permission_config: null,
+        custom_prompt_instructions: '',
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
       }

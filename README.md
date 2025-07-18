@@ -480,6 +480,21 @@ sudo rm -rf outputs/* uploads/* claude-code-workspace/*
 
 ### Common Issues and Solutions
 
+#### Custom Prompt Not Applied
+
+**Problem**: Custom prompt instructions entered in settings are not reflected in task prompt.md files.
+
+**Solution**:
+```bash
+# Run database migration
+npm run db:migrate
+
+# Or manually apply migration
+node scripts/apply-migration.js
+```
+
+This adds the `custom_prompt_instructions` column to the database and enables the custom prompt feature.
+
 #### Root/Sudo Permission Error
 
 **Error**: `"cannot be use with root/sudo privileges for security reason"`

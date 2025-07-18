@@ -395,6 +395,21 @@ NODE_ENV=development
 
 ### よくある問題
 
+#### カスタムプロンプトが適用されない
+
+**問題**: 設定でカスタムプロンプトを入力しても、タスクのprompt.mdに反映されない。
+
+**解決方法**:
+```bash
+# データベースマイグレーションを実行
+npm run db:migrate
+
+# または、手動でマイグレーションを適用
+node scripts/apply-migration.js
+```
+
+これによりデータベースに`custom_prompt_instructions`カラムが追加され、カスタムプロンプト機能が有効になります。
+
 #### Root/Sudo権限エラー
 
 **エラー**: `"cannot be use with root/sudo privileges for security reason"`

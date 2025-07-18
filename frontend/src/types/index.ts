@@ -73,6 +73,7 @@ export interface UserSettings {
   enable_task_timeout: boolean
   enable_dangerous_permissions?: number
   permission_config?: string
+  custom_prompt_instructions?: string
 }
 
 export interface CreateTaskDto {

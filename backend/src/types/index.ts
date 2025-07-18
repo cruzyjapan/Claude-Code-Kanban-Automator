@@ -80,6 +80,7 @@ export interface UserSettings {
   enable_task_timeout: number;
   enable_dangerous_permissions: number;
   permission_config: string | null;
+  custom_prompt_instructions: string;
   created_at: string;
   updated_at: string;
 }
