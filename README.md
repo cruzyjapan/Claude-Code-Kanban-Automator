@@ -42,7 +42,7 @@ This tool bridges the gap between task management and AI execution, allowing you
 <table>
 <tr>
 <td align="center">
-<h3>機Diagram</h3>
+<h3>Diagram</h3>
 <img src="screenshots/claude-code-kanban-diagram-en.png" alt="Diagram" width="800">
 <br>
 </td>
@@ -317,10 +317,27 @@ Add global instructions for all Claude Code executions:
 2. Add your instructions (e.g., coding standards, language preferences)
 3. Save - these will be included in all task executions
 
-### Permission Modes
+### 🔐 Permission Settings (Important)
 
-- **Normal Mode** (default): Standard file operation restrictions
-- **Dangerous Permissions**: Enable with `--dangerously-skip-permissions` in settings
+To enable Claude Code to properly generate files and folders, you need to enable **dangerous permissions mode**:
+
+1. **Enable from Settings (Recommended)**:
+   - Open the application in your browser
+   - Go to Settings → Permission Settings
+   - Turn ON "Dangerous Permissions Mode"
+
+2. **Why it's necessary**:
+   - Claude Code's standard mode restricts file generation for security reasons
+   - Using the `--dangerously-skip-permissions` flag allows file and folder creation during task execution
+   - Without this flag, Claude Code operates in read-only mode
+   - **Examples**:
+     - ✅ Enabled: Can create new components, generate files, create folders, auto-generate code
+     - ❌ Disabled: Can only read and analyze existing files, cannot create new files
+
+3. **Security Notice**:
+   - Only use this mode for trusted tasks
+   - Disable it when executing unknown code or externally provided tasks
+   - **Never use this with root user privileges**
 
 ## 📋 Usage Guide
 
