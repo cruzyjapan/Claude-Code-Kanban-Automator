@@ -22,13 +22,13 @@ This tool bridges the gap between task management and AI execution, allowing you
 <tr>
 <td align="center">
 <h3>Create New Task</h3>
-<img src="public/screenshots/CreateTask.png" alt="Create Task Modal" width="400">
+<img src="screenshots/CreateTask.png" alt="Create Task Modal" width="400">
 <br>
 <em>Create new task modal with title, description, priority, and attachments</em>
 </td>
 <td align="center">
 <h3>Kanban Board</h3>
-<img src="public/screenshots/Dashboard.png" alt="Kanban Board" width="400">
+<img src="screenshots/Dashboard.png" alt="Kanban Board" width="400">
 <br>
 <em>Kanban board view with task execution notification</em>
 </td>
@@ -36,13 +36,13 @@ This tool bridges the gap between task management and AI execution, allowing you
 <tr>
 <td align="center">
 <h3>Language Settings</h3>
-<img src="public/screenshots/Language.png" alt="Language Settings" width="400">
+<img src="screenshots/Language.png" alt="Language Settings" width="400">
 <br>
 <em>Language selection - Japanese/English support</em>
 </td>
 <td align="center">
 <h3>Theme Settings</h3>
-<img src="public/screenshots/Appearance.png" alt="Theme Settings" width="400">
+<img src="screenshots/Appearance.png" alt="Theme Settings" width="400">
 <br>
 <em>Appearance settings - Light/Dark/System theme options</em>
 </td>
@@ -52,13 +52,13 @@ This tool bridges the gap between task management and AI execution, allowing you
 <tr>
 <td align="center">
 <h3>Notification Settings</h3>
-<img src="public/screenshots/Notifications.png" alt="Notification Settings" width="400">
+<img src="screenshots/Notifications.png" alt="Notification Settings" width="400">
 <br>
 <em>Configure desktop notifications, sound alerts, and notification items</em>
 </td>
 <td align="center">
 <h3>Archive</h3>
-<img src="public/screenshots/Archive.png" alt="Archive View" width="400">
+<img src="screenshots/Archive.png" alt="Archive View" width="400">
 <br>
 <em>Archive view for managing completed tasks</em>
 </td>
@@ -66,13 +66,13 @@ This tool bridges the gap between task management and AI execution, allowing you
 <tr>
 <td align="center">
 <h3>Task Feedback</h3>
-<img src="public/screenshots/Feedback History.png" alt="Task Feedback" width="400">
+<img src="screenshots/Feedback History.png" alt="Task Feedback" width="400">
 <br>
 <em>Feedback interface for task review and revision requests</em>
 </td>
 <td align="center">
 <h3>Task Information</h3>
-<img src="public/screenshots/Task.png" alt="Task Information" width="400">
+<img src="screenshots/Task.png" alt="Task Information" width="400">
 <br>
 <em>Task details showing status, priority, and version control</em>
 </td>
