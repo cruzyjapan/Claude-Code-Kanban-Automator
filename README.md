@@ -7,6 +7,27 @@ A powerful Kanban-style task management system that seamlessly integrates with C
 ![TypeScript](https://img.shields.io/badge/typescript-%3E%3D5.0.0-blue.svg)
 ![React](https://img.shields.io/badge/react-18.2.0-blue.svg)
 
+## ⚠️ **IMPORTANT: Do Not Use Root User**
+
+**Claude Code cannot use `--dangerously-skip-permissions` when running as root user for security reasons.**
+
+Before installation, ensure you are using a regular user account (not root):
+
+```bash
+# Check current user (should NOT be 'root')
+whoami
+
+# If you are root, create and switch to a regular user
+sudo adduser yourusername
+sudo usermod -aG sudo yourusername  # Add sudo privileges if needed
+su - yourusername
+
+# Or switch to existing user
+su - yourusername
+```
+
+**⚠️ Never install or run this application as root user!**
+
 ## 🎯 Why Claude Code Kanban Automator?
 
 This tool bridges the gap between task management and AI execution, allowing you to:
@@ -125,7 +146,18 @@ chmod +x install.sh
 
 ### Start the Application
 
+**Option 1: Separate Terminals (Recommended)**
 ```bash
+# Terminal 1: Start Backend
+npm run dev:backend
+
+# Terminal 2: Start Frontend  
+npm run dev:frontend
+```
+
+**Option 2: Single Command (May Have Issues)**
+```bash
+# This may not work reliably on all systems
 npm run dev
 ```
 
@@ -348,6 +380,20 @@ If you need to completely reset the application to its initial state:
 
 ### Complete Reset (Nuclear Option)
 
+**Method 1: Directory Removal (Simplest)**
+```bash
+# Complete removal and fresh install
+cd ..
+rm -rf claude-code-kanban-automator
+
+# Fresh installation
+git clone https://github.com/cruzy-japan/claude-code-kanban-automator.git
+cd claude-code-kanban-automator
+chmod +x install.sh
+./install.sh
+```
+
+**Method 2: Partial Reset**
 ```bash
 # Stop all running processes
 npm run clean
@@ -375,7 +421,8 @@ db.exec(schema, (err) => {
 });"
 
 # Restart application
-npm run dev
+npm run dev:backend  # Terminal 1
+npm run dev:frontend # Terminal 2
 ```
 
 ### Partial Reset Options

@@ -7,6 +7,27 @@ Claude Codeを使用してタスクを自動実行するカンバンスタイル
 ![TypeScript](https://img.shields.io/badge/typescript-%3E%3D5.0.0-blue.svg)
 ![React](https://img.shields.io/badge/react-18.2.0-blue.svg)
 
+## ⚠️ **重要: rootユーザーでの作業禁止**
+
+**Claude Codeはセキュリティ上の理由により、rootユーザーでは`--dangerously-skip-permissions`が使用できません。**
+
+インストール前に、必ず一般ユーザーアカウント（root以外）で作業してください：
+
+```bash
+# 現在のユーザー確認（'root'であってはいけません）
+whoami
+
+# rootの場合は、一般ユーザーを作成して切り替え
+sudo adduser ユーザー名
+sudo usermod -aG sudo ユーザー名  # 必要に応じてsudo権限を付与
+su - ユーザー名
+
+# または既存ユーザーに切り替え
+su - ユーザー名
+```
+
+**⚠️ このアプリケーションは絶対にrootユーザーでインストール・実行しないでください！**
+
 ## 🚀 主な機能
 
 ### タスク管理
@@ -124,7 +145,18 @@ chmod +x install.sh
 
 ### アプリケーション起動
 
+**オプション1: 別々のターミナル（推奨）**
 ```bash
+# ターミナル1: バックエンド起動
+npm run dev:backend
+
+# ターミナル2: フロントエンド起動
+npm run dev:frontend
+```
+
+**オプション2: 一括起動（問題が発生する可能性あり）**
+```bash
+# システムによっては正常に動作しない場合があります
 npm run dev
 ```
 
@@ -403,6 +435,48 @@ A: `npm run db:init`を実行してデータベースを初期化してくださ
 
 **Q: WebSocket接続が失敗する**
 A: ファイアウォールがポート5001をブロックしていないか確認してください。
+
+## 🗑️ 完全初期化 / アプリケーションリセット
+
+アプリケーションを完全に初期状態に戻したい場合：
+
+### 完全リセット
+
+**方法1: ディレクトリ削除（最もシンプル）**
+```bash
+# 完全削除して新規インストール
+cd ..
+rm -rf claude-code-kanban-automator
+
+# 新規インストール
+git clone https://github.com/cruzy-japan/claude-code-kanban-automator.git
+cd claude-code-kanban-automator
+chmod +x install.sh
+./install.sh
+```
+
+**方法2: 部分リセット**
+```bash
+# 全プロセス停止
+npm run clean
+
+# 全データと生成ファイル削除
+rm -rf database/tasks.db
+rm -rf outputs/*
+rm -rf uploads/*
+rm -rf claude-code-workspace/*
+rm -rf logs/*
+
+# .gitkeepファイル保持
+touch outputs/.gitkeep uploads/.gitkeep claude-code-workspace/.gitkeep logs/.gitkeep
+
+# データベース再初期化
+npm run db:init
+
+# アプリケーション再起動
+npm run dev:backend  # ターミナル1
+npm run dev:frontend # ターミナル2
+```
 
 ## 🤝 貢献
 
