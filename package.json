@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "@tailwindcss/forms": "^0.5.10",
-    "dotenv": "^17.2.0",
+    "dotenv": "^17.2.2",
     "sqlite3": "^5.1.7"
   }
 }
